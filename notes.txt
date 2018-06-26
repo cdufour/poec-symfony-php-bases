@@ -1,5 +1,0 @@
-JS langage exécuté côté client
-
-PHP
-langage côté serveur
-1995
