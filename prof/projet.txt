@@ -1,0 +1,18 @@
+*** Project site voyages ***
+
+Fonctionnalités
+COTE CLIENT
+- homepage: moteur de recherche
+  - Pays
+  - Période (dates)
+  - Budget
+
+  => page de résultats en fonctions de critères
+  Liste de "fiches séjour"
+
+  COTE SERVEUR
+  - base de données
+
+  Administrateur via login
+  - formulaires d'ajout / mise à jour / suppression des fiches séjour
+  (CRUD: Create Read Update Delete)
