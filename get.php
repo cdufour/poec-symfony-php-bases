@@ -1,9 +1,16 @@
 <?php
+$isFormSubmitted = false; // booléen permettant de savoir
+//si le formulaire a été soumis par l'utilisateur
 $images = array(
   ["title" => "Dauphin", "file" => "delfino.jpg"],
   ["title" => "Loup", "file" => "lupo.jpg"],
   ["title" => "Taureau", "file" => "toro.jpg"]
 );
+
+if (isset($_GET['submit'])) $isFormSubmitted = true;
+
+echo ($isFormSubmitted)
+  ? 'Formulaire soumis' : 'formulaire non soumis';
 ?>
 
 <!DOCTYPE html>
@@ -13,11 +20,21 @@ $images = array(
     <title></title>
   </head>
   <body>
-    <form action="" method="get">
+    <form action="get.php" method="get">
       <select name="selectedImage">
+        <option value="0">Choisir un animal</option>
         <?php
           foreach($images as $image) {
-            echo '<option value="'.$image['file'].'">'.$image['title'].'</option>';
+            if ($isFormSubmitted) {
+              $selectedImage = $_GET['selectedImage'];
+              if ($image['file'] == $selectedImage ) {
+                echo '<option selected value="'.$image['file'].'">'.$image['title'].'</option>';
+              } else {
+                echo '<option value="'.$image['file'].'">'.$image['title'].'</option>';
+              }
+            } else {
+              echo '<option value="'.$image['file'].'">'.$image['title'].'</option>';
+            }
           }
         ?>
       </select>
@@ -26,9 +43,12 @@ $images = array(
 
     <div>
       <?php
-        if (isset($_GET['submit'])) {
-          $file = 'img/' . $_GET['selectedImage'];
-          echo '<img src="'.$file.'">';
+        if ($isFormSubmitted) {
+          $image = $_GET['selectedImage'];
+          if ($image != "0") {
+            $file = 'img/' . $image;
+            echo '<img src="'.$file.'">';
+          }
         }
       ?>
     </div>
