@@ -1,4 +1,5 @@
 <?php
+//include('../config.php');
 session_start(); // accès à la session ou création
 $isUserConnected = false;
 $isUserAdmin = false;
@@ -17,18 +18,20 @@ if (isset($_SESSION['user'])) {
   <head>
     <meta charset="utf-8">
     <title>Very Good Trip</title>
-    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <link
+      rel="stylesheet"
+      href="<?php echo BASE_URL ?>/static/css/bootstrap.min.css">
   </head>
   <body>
     <nav>
       <ul class="nav">
         <li class="nav-item">
-          <a class="nav-link" href="index.php">Accueil</a>
+          <a class="nav-link" href="<?php echo BASE_URL ?>/index.php">Accueil</a>
         </li>
         <?php
           if ($isUserAdmin) {
             echo '<li class="nav-item">';
-            echo '<a class="nav-link" href="dashboard.php">Administration</a>';
+            echo '<a class="nav-link" href="'.BASE_URL.'/dashboard.php">Administration</a>';
             echo '</li>';
           }
         ?>
@@ -37,11 +40,11 @@ if (isset($_SESSION['user'])) {
             if ($isUserConnected) {
               // Si l'utilisateur est connecté: on affiche
               // prénom + lien de déconnexion
-              echo '<a class="nav-link" href="logout.php">';
+              echo '<a class="nav-link" href="'.BASE_URL.'/logout.php">';
               echo $_SESSION['user']['firstname'].' (Déconnexion)</a>';
             } else {
               // sinon: on affiche un lien de connexion
-              echo '<a class="nav-link" href="login_form.php">Connexion</a>';
+              echo '<a class="nav-link" href="'.BASE_URL.'/login_form.php">Connexion</a>';
             }
           ?>
         </li>
