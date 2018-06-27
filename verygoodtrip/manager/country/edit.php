@@ -9,13 +9,16 @@ $country = array('id' => 0, 'name' => '');
 if (isset($_POST['submit'])) {
   if ($db) {
     $query = $db->prepare(
-      'UPDATE country SET name = :name
-        WHERE id = :id
-      ');
+      'UPDATE country SET name = :name WHERE id = :id');
     $result = $query->execute(array(
       ':name' => $_POST['name'],
       ':id' => $_POST['id']
     ));
+    if ($result) {
+      header('location:list.php');
+    } else {
+      echo '<p>Problème</p>';
+    }
   }
 } else {
   // page accédée via la méthode GET
