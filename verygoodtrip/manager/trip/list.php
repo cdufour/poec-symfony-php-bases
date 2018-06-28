@@ -1,5 +1,6 @@
 <?php
 require_once('../../dbmanager.php');
+require_once('../../utility.php');
 include('../../templates/header.php');
 $trips = getTrips($full = false); // équivalent à getTrips(false)
 ?>
@@ -15,10 +16,26 @@ $trips = getTrips($full = false); // équivalent à getTrips(false)
   </tr>
   <?php foreach($trips as $trip): ?>
     <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td>
+        <?php echo $trip['title'] ?>
+      </td>
+      <td>
+        <?php echo $trip['country_name'] ?>
+      </td>
+      <td>
+        <?php
+          echo 'Du ' . transformSQLDate($trip['date_start']);
+          echo ' au ' . transformSQLDate($trip['date_end']);
+        ?>
+      </td>
+      <td>
+        <a
+          class="btn btn-primary btn-sm"
+          href="edit.php?id=<?php echo $trip['id'] ?>">Editer</a>
+        <a
+          class="btn btn-danger btn-sm"
+          href="delete.php?id=<?php echo $trip['id'] ?>">Supprimer</a>
+      </td>
     </tr>
   <?php endforeach; ?>
 </table>
