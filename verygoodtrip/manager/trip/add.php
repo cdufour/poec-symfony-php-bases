@@ -14,16 +14,14 @@ if (isset($_POST['submit'])) {
         date_end,
         title,
         description,
-        price,
-        picture)
+        price)
         VALUES(
           :country,
           :date_start,
           :date_end,
           :title,
           :description,
-          :price,
-          :picture)
+          :price)
       ');
     $result = $query->execute(array(
       ':country' => $_POST['country'],
@@ -31,8 +29,7 @@ if (isset($_POST['submit'])) {
       ':date_end' => $_POST['date_end'],
       ':title' => $_POST['title'],
       ':description' => $_POST['description'],
-      ':price' => $_POST['price'],
-      ':picture' => 1
+      ':price' => $_POST['price']
     ));
     if ($result) {
       header('location:list.php');
@@ -68,7 +65,7 @@ if (isset($_POST['submit'])) {
     <input type="date" name="date_end">
   </div>
   <div class="form-group">
-    <input type="number" name="price" placeholder="Prix">
+    <input type="text" name="price" placeholder="Prix">
   </div>
   <div class="form-group">
     <textarea name="description" rows="8" cols="80" placeholder="Descriptif"></textarea>

@@ -1,6 +1,7 @@
 <?php
 require_once('config.php');
 
+// table: country
 function getCountries() {
   $db = db_connect();
   $countries = null;
@@ -16,6 +17,7 @@ function getCountries() {
   return $countries;
 }
 
+// table: trip
 function getTrips($full = true) {
   $db = db_connect();
   $trips = null;
@@ -64,8 +66,7 @@ function updateTrip($id, $data) {
           date_end = :date_end,
           title = :title,
           description = :description,
-          price = :price,
-          picture = :picture
+          price = :price
         WHERE id = :id
       ');
     $result = $query->execute(array(
@@ -75,8 +76,7 @@ function updateTrip($id, $data) {
       ':date_end'     => $data['date_end'],
       ':title'        => $data['title'],
       ':description'  => $data['description'],
-      ':price'        => $data['price'],
-      ':picture'      => 1
+      ':price'        => $data['price']
     ));
     return $result;
   }
@@ -93,6 +93,37 @@ function deleteTrip($id) {
   }
   return null;
 }
+
+// table: picture
+function insertPicture($trip_id, $path) {
+  $db = db_connect();
+  if ($db) {
+    $query = $db->prepare(
+      'INSERT INTO picture (trip_id, path)
+        VALUES(:trip_id, :path)');
+    $result = $query->execute(array(
+      ':trip_id' => $trip_id,
+      ':path' => $path
+    ));
+    return $result;
+  }
+  return null;
+}
+
+function getPicturesByTrip($trip_id) {
+  $db = db_connect();
+  if ($db) {
+    $query = $db->prepare(
+      'SELECT * FROM picture WHERE trip_id = :trip_id');
+    $result = $query->execute(array(':trip_id' => $trip_id));
+    if ($result) {
+      return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+  }
+  return null;
+}
+
+
 
 
 ?>
