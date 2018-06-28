@@ -54,4 +54,32 @@ function getTripById($id) {
   return null;
 }
 
+function updateTrip($id, $data) {
+  $db = db_connect();
+  if ($db) {
+    $query = $db->prepare(
+      'UPDATE trip
+        SET country = :country,
+          date_start = :date_start,
+          date_end = :date_end,
+          title = :title,
+          description = :description,
+          price = :price,
+          picture = :picture
+        WHERE id = :id
+      ');
+    $result = $query->execute(array(
+      ':id'           => $id,
+      ':country'      => $data['country'],
+      ':date_start'   => $data['date_start'],
+      ':date_end'     => $data['date_end'],
+      ':title'        => $data['title'],
+      ':description'  => $data['description'],
+      ':price'        => $data['price'],
+      ':picture'      => 1
+    ));
+    return $result;
+  }
+  return null;
+}
 ?>
