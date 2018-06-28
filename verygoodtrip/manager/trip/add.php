@@ -34,7 +34,9 @@ if (isset($_POST['submit'])) {
       ':price' => $_POST['price'],
       ':picture' => 1
     ));
-    var_dump($result);
+    if ($result) {
+      header('location:list.php');
+    }
   }
 }
 
