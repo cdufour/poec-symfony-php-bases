@@ -82,4 +82,17 @@ function updateTrip($id, $data) {
   }
   return null;
 }
+
+function deleteTrip($id) {
+  $db = db_connect();
+  if ($db) {
+    $query = $db->prepare(
+      'DELETE FROM trip WHERE id = :id');
+    $result = $query->execute(array(':id' => $id));
+    return $result;
+  }
+  return null;
+}
+
+
 ?>

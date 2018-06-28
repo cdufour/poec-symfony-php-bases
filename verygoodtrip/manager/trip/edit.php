@@ -1,15 +1,18 @@
 <?php
 include('../../dbmanager.php');
 include('../../templates/header.php');
-$db = db_connect();
 
 if (isset($_POST['submit'])) {
   // formulaire posté => écriture en BDD
   $result = updateTrip($_POST['id'], $_POST);
-  var_dump($result);
+  if ($result) {
+    header('location:list.php');
+  } else {
+    echo '<p>Problème</p>';
+  }
 
 } else {
-  // récupérations des champs actuels du voyage identifié
+  // récupération des champs actuels du voyage identifié
   // afin de préremplir le formulaire
   $countries = getCountries();
   $trip = getTripById($_GET['id']);
