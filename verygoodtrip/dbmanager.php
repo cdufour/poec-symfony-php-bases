@@ -97,8 +97,11 @@ function deleteTrip($id) {
 function searchTrip($criteria) {
   $db = db_connect();
   if ($db) {
-    $sql = 'SELECT id, country, title, date_start, date_end, price
-      FROM trip WHERE id > 0';
+    $sql = 'SELECT trip.id, country, title,
+      date_start, date_end, price, name AS country_name
+      FROM trip
+      LEFT JOIN country ON trip.country = country.id
+      WHERE trip.id > 0';
 
     if ($criteria['country'] != null) {
       $sql .= ' AND country = ' . $criteria['country'];

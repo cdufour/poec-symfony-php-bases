@@ -1,5 +1,6 @@
 <?php
 require_once('dbmanager.php');
+require_once('utility.php');
 include(TEMPLATES_PATH . '\header.php');
 
 $countries = getCountries();
@@ -33,7 +34,7 @@ if (isset($_GET['submit'])) {
   }
 
   $trips = searchTrip($criteria);
-  var_dump($trips);
+  //var_dump($trips);
 }
 ?>
 
@@ -54,5 +55,49 @@ if (isset($_GET['submit'])) {
   <input type="submit" name="submit" value="Rechercher"
     class="btn btn-primary btn-sm">
 </form>
+
+<?php if(isset($_GET['submit'])): ?>
+
+  <div>
+    <p>Filtres utilisés:</p>
+    <?php
+      if (sizeof($trips) > 0) {
+        echo 'Pays: ' . $trips[0]['country_name'] . ', ';
+      }
+    ?>
+    Date de début: <?php echo $_GET['date_start'] ?>,
+    Date de fin: <?php echo $_GET['date_end'] ?>,
+    Prix max: <?php echo $_GET['price'] ?>
+  </div>
+
+  <table class="table table-bordered table-striped">
+    <tr>
+      <th>Intitulé</th>
+      <th>Destination</th>
+      <th>Dates</th>
+      <th>Prix</th>
+    </tr>
+    <?php foreach($trips as $trip): ?>
+      <tr>
+        <td>
+          <?php echo $trip['title'] ?>
+        </td>
+        <td>
+          <?php echo $trip['country_name'] ?>
+        </td>
+        <td>
+          <?php
+            echo 'Du ' . transformSQLDate($trip['date_start']);
+            echo ' au ' . transformSQLDate($trip['date_end']);
+          ?>
+        </td>
+        <td>
+          <?php echo $trip['price'] ?> euros
+        </td>
+      </tr>
+    <?php endforeach; ?>
+  </table>
+
+<?php endif; ?>
 
 <?php include('templates/footer.php') ?>
