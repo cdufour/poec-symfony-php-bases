@@ -6,4 +6,12 @@ function transformSQLDate($sql_date) {
   // '2018-08-24' => '24/08/2018'
 }
 
+function cleanInput($str) {
+  // supprime toutes les balises HTML et PHP (SECURITE)
+  $cleanedStr = strip_tags($str);
+  // supprime les espaces initiaux et finaux
+  $cleanedStr = trim($cleanedStr);
+  return $cleanedStr;
+}
+
 ?>

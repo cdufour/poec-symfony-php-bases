@@ -1,6 +1,7 @@
 <?php
 include('../../config.php');
 include('../../templates/header.php');
+include('../../utility.php');
 $db = db_connect();
 
 // initialisation d'un tableau vide (pas obligatoire)
@@ -11,7 +12,7 @@ if (isset($_POST['submit'])) {
     $query = $db->prepare(
       'UPDATE country SET name = :name WHERE id = :id');
     $result = $query->execute(array(
-      ':name' => $_POST['name'],
+      ':name' => cleanInput($_POST['name']),
       ':id' => $_POST['id']
     ));
     if ($result) {

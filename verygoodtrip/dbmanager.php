@@ -94,6 +94,40 @@ function deleteTrip($id) {
   return null;
 }
 
+function searchTrip($criteria) {
+  $db = db_connect();
+  if ($db) {
+    $sql = 'SELECT id, country, title, date_start, date_end, price
+      FROM trip WHERE id > 0';
+
+    if ($criteria['country'] != null) {
+      $sql .= ' AND country = ' . $criteria['country'];
+    }
+
+    if ($criteria['date_start'] != null) {
+      // SQL exige la présence de single quotes autour de la date
+      // 2018-08-24 => MAUVAIS ; '2018-08-24' => OK
+      $sql .= ' AND date_start >= ' . '\''
+        . $criteria['date_start'] . '\'';
+    }
+
+    if ($criteria['date_end'] != null) {
+      $sql .= ' AND date_end <= ' . '\''
+        . $criteria['date_end'] . '\'';
+    }
+
+    if ($criteria['price'] != null) {
+      $sql .= ' AND price < ' . $criteria['price'];
+    }
+
+    $query = $db->prepare($sql);
+    $result = $query->execute();
+    if ($result) {
+      return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+  }
+}
+
 // table: picture
 function insertPicture($trip_id, $path) {
   $db = db_connect();

@@ -1,22 +1,17 @@
 <?php
 include('../../config.php');
+include('../../utility.php');
 include('../../templates/header.php');
 
 $db = db_connect();
-?>
-
-<h2>Ajouter un pays</h2>
-<form action="add.php" method="post">
-  <input type="text" name="name" placeholder="Nom">
-  <input type="submit" name="submit" value="Enregistrer">
-</form>
-
-<?php
-include('../../templates/footer.php');
 
 // traitement du formulaire
 if (isset($_POST['submit'])) {
-  if (strlen($_POST['name']) > 2) {
+
+  // nettoyage des inputs
+  $cleaned_name = cleanInput($_POST['name']);
+
+  if (strlen($cleaned_name) > 2) {
     // si le nom du pays a plus de 2 caractères
     // écriture en base de données
     if ($db) {
@@ -24,7 +19,7 @@ if (isset($_POST['submit'])) {
       $query = $db->prepare('INSERT INTO country (name) VALUES (:name)');
 
       //2. exécution + binding
-      $result = $query->execute(array(':name' => $_POST['name']));
+      $result = $query->execute(array(':name' => $cleaned_name));
 
       if ($result) {
         header('location:list.php');
@@ -36,4 +31,14 @@ if (isset($_POST['submit'])) {
 
   }
 }
+?>
+
+<h2>Ajouter un pays</h2>
+<form action="add.php" method="post">
+  <input type="text" name="name" placeholder="Nom">
+  <input type="submit" name="submit" value="Enregistrer">
+</form>
+
+<?php
+include('../../templates/footer.php');
 ?>
